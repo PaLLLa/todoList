@@ -1,0 +1,13 @@
+.todo-list-item{
+    margin-top: 13px;
+}
+.done {
+    text-decoration: line-through;
+}
+.important {
+    font-weight: bold;
+    color: tomato;
+}
+.bi-exclamation{
+    color: tomato;
+}
