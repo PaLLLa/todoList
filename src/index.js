@@ -9,7 +9,7 @@ import ItemAddForm from './components/item-add-form';
 
 import './index.css';
 
-class App extends Component {
+export default class App extends Component {
 
   maxId = 100;
 
