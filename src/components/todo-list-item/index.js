@@ -8,8 +8,7 @@ export default class TodoListItem extends Component{
         const {label, onDeleted,
                onToggleImportant,
                onToggleDone,
-               important,
-               done} = this.props;
+               important, done} = this.props;
 
         let classNames = 'todo-list-item col-lg-10 col-md-10 col-sm-10';
         
