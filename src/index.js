@@ -15,10 +15,19 @@ export default class App extends Component {
 
   state = {
     todoData: [
-      {label: 'Drink Coffee', important: false, id: 1},
-      {label: 'Make Awesome App', important: true, id: 2},
-      {label: 'Have a lunch', important: false, id: 3},
+      this.createTodoItem('Drink Coffee'),
+      this.createTodoItem('Make Awesome App'),
+      this.createTodoItem('Have a lunch')
     ]
+  }
+
+  createTodoItem(label) {
+    return {
+        label,
+        important: false,
+        done: false,
+        id: this.maxId++
+    }
   }
 
   deleteItem = (id) =>{
@@ -31,36 +40,60 @@ export default class App extends Component {
       }
     });
   }
+
   addItem = (text) => {
-    const newItem = {
-      label: text,
-      important: false,
-      id: this.maxId++
-    }
+    const newItem = this.createTodoItem(text);
 
     this.setState(({ todoData }) => {
       const newArray = [...todoData, newItem];
+
       return {
         todoData: newArray
+
       }
     });
   }
-  onToggleImportant = (id) => {
-    console.log('Important', id);
+
+  onToggleProperty(arr, id, propName){
+    //Find id
+    const idx = arr.findIndex((el) => el.id === id);
+
+    const oldItem = arr[idx];
+    //Create new item
+    const newItem = {...oldItem, [propName]: !oldItem[propName]};
+
+    return [...arr.slice(0, idx), newItem, ...arr.slice(idx + 1)];
   }
+
+  onToggleImportant = (id) => {
+    this.setState(({todoData}) => {
+      return{
+        todoData: this.onToggleProperty(todoData, id, 'important')
+      }
+    });
+  }
+
   onToggleDone = (id) => {
-    console.log('Done', id);
+    this.setState(({todoData}) => {
+      return{
+        todoData: this.onToggleProperty(todoData, id, 'done')
+      }
+    });
   }
 
 
   render(){
+    const {todoData} = this.state;
+    const doneCount = todoData.filter((el) => el.done).length;
+    const todoCount = todoData.length - doneCount;
+
     return(
       <div className="row">
           <div className="col-sm-2 col-md-2 col-lg-3"></div>      
           <div className = "col-sm-8 col-md-8 col-lg-6">
-            <AppHeader toDo={1} done={3}/>
+            <AppHeader toDo={todoCount} done={doneCount}/>
             <SearchPanel />
-            <TodoList todos={this.state.todoData} 
+            <TodoList todos={todoData} 
                       onDeleted={this.deleteItem}
                       onToggleDone={this.onToggleDone}
                       onToggleImportant = {this.onToggleImportant}/>
