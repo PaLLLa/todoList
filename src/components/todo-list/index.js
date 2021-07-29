@@ -8,8 +8,11 @@ const TodoList = ({ todos, onDeleted,
     //Function for each items
   const elements = todos.map((item) => {
 
+    
     const { id, ...itemProps} = item;
     
+
+
     return(
       <li key={id} className="list-group-item">
         <TodoListItem { ...itemProps  } 
