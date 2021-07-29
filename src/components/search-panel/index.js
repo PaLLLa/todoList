@@ -14,12 +14,16 @@ export default class SearchPanel extends Component{
     this.props.onSearchChange(label);
   }
 
+  onFilterChange = (filter) => {
+    this.props.filterChange(filter);
+  }
+
   render(){
 
     return(
     <div className='row gx-1 gy-1 d-flex'>
       <input placeholder="search" className='form-control' onChange={this.onLabelChange} value={this.state.label}/>
-      <ItemStatusFilter />
+      <ItemStatusFilter onFilterChange={this.onFilterChange}/>
     </div>)
     }
 }
